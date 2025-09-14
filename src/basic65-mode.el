@@ -4,7 +4,7 @@
 ;; Version: 0.1
 ;; Keywords: languages, basic, mega65
 ;; Package-Requires: ((emacs "25.1") (basic-mode "1.0"))
-;; URL: https://github.com/prake71/emacs-mega65-basic-ide
+;; URL: https://github.com/prake71/basic65-mode
 
 ;;; Commentary:
 ;; This minor mode extends `basic-mode` with MEGA65-specific features:
@@ -12,6 +12,20 @@
 ;; - Additional BASIC 65 keywords
 ;; - PETSCII control code completion
 ;; - Planned integration with xemu for running code
+
+;;; History:
+;;  09-14-2025 added basic65 keywords
+;;             allow editing only in lowercase
+;;             integration with petcat and xemu Mega65 emulator
+;;             derived from basic-mode at
+;;             https://github.com/dykstrom/basic-mode
+;;
+
+;; TODOS:
+;;             - petscii code insertion is not working
+;;             - killing xemu session from within emacs
+;;             - petcat run only with status buffer
+;;
 
 ;;; Code:
 
@@ -134,6 +148,7 @@ Triggered by `after-change-functions`."
                    basic65-xemu-command
                    "-prg" prg-file)))
 
+;; TODO: is not working --> to be checked!!!
 (defun basic65-exit-xemu ()
   "Kill current xemu session."
   (interactive)
