@@ -31,6 +31,8 @@
 
 (require 'basic-mode)
 
+
+
 ;; ------------------------------
 ;; defcustom
 ;; ------------------------------
@@ -104,15 +106,30 @@ Triggered by `after-change-functions`."
 ;; ------------------------------
 
 (defvar basic65-petcat-table
-  '(("clr" . "{clr}")
-    ("home" . "{home}")
-    ("ret" . "{return}")
-    ("rvs" . "{rvs-on}")
-    ("nor" . "{rvs-off}")
-    ("pi"  . "{pi}")
-    ("f1" . "{f1}") ("f2" . "{f2}") ("f3" . "{f3}") ("f4" . "{f4}")
-    ("f5" . "{f5}") ("f6" . "{f6}") ("f7" . "{f7}") ("f8" . "{f8}"))
+  '(("clr"    . "{clr}")
+    ("home"   . "{home}")
+    ("inst"   . "{inst-del}")
+    ("ret"    . "{return}")
+    ("rvs"    . "{rvs-on}")
+    ("nor"    . "{rvs-off}")
+    ("pi"     . "{pi}")
+    ("f1"     . "{f1}")  ("f2" . "{f2}")
+    ("f3"     . "{f3}")  ("f4" . "{f4}")
+    ("f5"     . "{f5}")  ("f6" . "{f6}")
+    ("f7"     . "{f7}")  ("f8" . "{f8}")
+    ("up"     . "{up}")   ("down"  . "{down}")
+    ("left"   . "{left}") ("right" . "{right}")
+    ("stop"   . "{stop}") ("run"   . "{runstop}")
+    ("quote"  . "{quote}") ("pound" . "{pound}")
+    ("aster"  . "{asterisk}") ("arrow" . "{arrow}")
+    ("bell"   . "{bell}")  ("esc"  . "{esc}")
+    ("tab"    . "{tab}")
+    ("black"  . "{black}") ("white"  . "{white}")
+    ("red"    . "{red}")   ("cyan"   . "{cyan}")
+    ("purple" . "{purple}") ("green" . "{green}")
+    ("blue"   . "{blue}")  ("yellow" . "{yellow}"))
   "Mapping of short triggers to PETCAT control codes.")
+
 
 (defun basic65-complete-petcat ()
   "Completion for PETSCII control codes inside {...}."
@@ -127,6 +144,9 @@ Triggered by `after-change-functions`."
             (mapcar #'cdr basic65-petcat-table)
             :exclusive 'no))))
 
+
+
+
 ;; ------------------------------
 ;; Run in xemu
 ;; ------------------------------
@@ -138,9 +158,23 @@ Triggered by `after-change-functions`."
     (call-process basic65-petcat-command nil "*petcat-output*" t
                   "-w65" "-o" output-file "--" tmp-src)))
 
+;; (defun basic65-run-in-xemu ()
+;;   "Export the current buffer to a PRG and run it in xemu."
+;;   (interactive)
+;;   (let ((prg-file (make-temp-file "basic65-" nil ".prg")))
+;;     (basic65--buffer-to-prg prg-file)
+;;     (message "Running %s in xemu..." prg-file)
+;;     (start-process "basic65-xemu" "*basic65-xemu*"
+;;                    basic65-xemu-command
+;;                    "-prg" prg-file)))
+
 (defun basic65-run-in-xemu ()
   "Export the current buffer to a PRG and run it in xemu."
   (interactive)
+  ;; kill old process if still running
+  (when-let ((old (get-process "basic65-xemu")))
+    (delete-process old)
+    (message "Killed old xemu process."))
   (let ((prg-file (make-temp-file "basic65-" nil ".prg")))
     (basic65--buffer-to-prg prg-file)
     (message "Running %s in xemu..." prg-file)
@@ -148,20 +182,33 @@ Triggered by `after-change-functions`."
                    basic65-xemu-command
                    "-prg" prg-file)))
 
-;; TODO: is not working --> to be checked!!!
-(defun basic65-exit-xemu ()
-  "Kill current xemu session."
+
+(defun basic65-kill-xemu ()
+  "Kill the running xemu process started by `basic65-run-in-xemu`."
   (interactive)
-  (stop-process "basic65-xemu"))
+  (let ((proc (get-process "basic65-xemu")))
+    (if proc
+        (progn
+          (delete-process proc)
+          (message "Killed xemu process."))
+      (message "No xemu process running."))))
 
 
 ;; ------------------------------
 ;; Minor mode definition
 ;; ------------------------------
+(defvar basic65-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-r") #'basic65-run-in-xemu)  ;; Run in xemu
+    (define-key map (kbd "C-c C-k") #'basic65-kill-xemu)    ;; Kill xemu
+    map)
+  "Keymap for `basic65-mode`.")
+
 
 (define-minor-mode basic65-mode
   "Minor mode for editing MEGA65 BASIC code on top of `basic-mode`."
   :lighter " BASIC65"
+  :keymap basic65-mode-map
   (if basic65-mode
       (progn
         (basic65-setup-lowercase)
@@ -172,6 +219,14 @@ Triggered by `after-change-functions`."
     (font-lock-remove-keywords nil basic65-extra-font-lock-keywords)
     (remove-hook 'completion-at-point-functions #'basic65-complete-petcat t)
     (message "BASIC65 mode disabled")))
+
+;; ==============================
+;; Corfu Setup (Inline Completion)
+;; ==============================
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode))
 
 ;; ------------------------------
 ;; Helper command
