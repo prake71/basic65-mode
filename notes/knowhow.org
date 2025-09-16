@@ -1,0 +1,84 @@
+* Use C64 Mono Font within Emacs
+
+Um einen **TTF-Font** (TrueType Font) wie z.B. einen Retro-Font für
+deinen `basic65-mode` in Emacs zu verwenden, gibt es zwei Ansätze – je
+nachdem, ob du ihn **global** oder **nur für einen bestimmten Mode**
+nutzen möchtest.
+
+---
+
+** Schritt-für-Schritt: TTF-Font in Emacs nutzen
+
+***  1. Font installieren (Systemweit)
+
+Stelle sicher, dass der Font auf deinem System installiert ist:
+
+- Unter **Windows**: Rechtsklick auf die `.ttf`-Datei → „Installieren“
+- Unter **Linux**: Kopiere die Datei nach `~/.fonts/` oder
+  `~/.local/share/fonts/` und führe `fc-cache -fv` aus
+
+---
+
+***  2. Font in Emacs verfügbar machen
+
+Du kannst prüfen, ob Emacs den Font erkennt:
+
+#+begin_src lisp
+(insert (prin1-to-string (font-family-list)))
+#+end_src
+
+Das zeigt dir alle verfügbaren Font-Namen. Suche nach deinem Font,
+z.B. `"C64 Pro Mono"` oder `"Pixel Emulator"`.
+
+---
+
+***  3. Font global setzen (optional)
+#+begin_src lisp
+(set-frame-font "C64 Pro Mono-12" t t)
+#+end_src
+---
+
+***  4. Font **nur für `basic65-mode`** setzen
+
+Hier ein Beispiel, wie du den Font nur für deinen eigenen Mode
+aktivierst:
+
+#+begin_src lisp
+  (defun basic65-set-font ()
+    "Setzt Retro-Font fuer BASIC65-Mode."
+    (face-remap-add-relative 'default :family "C64 Pro Mono" :height 120))
+
+  (add-hook 'basic65-mode-hook *'basic65-set-font)
+#+end_src
+
+Das funktioniert, wenn du `basic65-mode` als eigenen Major Mode
+definiert hast. Falls du ihn noch nicht als solchen registriert hast,
+kann ich dir dabei helfen.
+
+---
+
+***  5. Optional: Font für bestimmte Fenster oder Buffers
+
+Du kannst auch gezielt in bestimmten Buffern den Font setzen,
+z.B. für ein REPL-Fenster oder ein Emulator-Log.
+
+---
+
+**  Bonus: Font-Vorschau
+
+Wenn du magst, kannst du auch ein kleines Snippet schreiben, das dir
+den Font in einem Test-Buffer zeigt:
+
+#+begin_src lisp
+  (defun font-preview (font-name)
+    "Zeigt eine Vorschau des Fonts FONT-NAME."
+    (interactive "sFont name: ")
+    (let ((buf
+  	 (get-buffer-create "*Font Preview*")))
+      (with-current-buffer buf
+        (erase-buffer) (insert "10 PRINT \"HELLO MEGA65\"\n20 GOTO 10")
+        (face-remap-add-relative 'default :family font-name :height 120))
+      (display-buffer buf)))
+#+end_src
+---
+

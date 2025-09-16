@@ -14,18 +14,22 @@
 ;; - Planned integration with xemu for running code
 
 ;;; History:
-;;  09-14-2025 added basic65 keywords
+;;  2025-09-14 added basic65 keywords
 ;;             allow editing only in lowercase
 ;;             integration with petcat and xemu Mega65 emulator
 ;;             derived from basic-mode at
 ;;             https://github.com/dykstrom/basic-mode
-;;
+;;  2025-09-16 xemu already running check
+;;             kill xemu from within emacs
+;; 
 
 ;; TODOS:
 ;;             - petscii code insertion is not working
-;;             - killing xemu session from within emacs
+;;             - killing xemu session from within emacs (done)
 ;;             - petcat run only with status buffer
 ;;
+
+
 
 ;;; Code:
 
@@ -143,8 +147,6 @@ Triggered by `after-change-functions`."
       (list start end
             (mapcar #'cdr basic65-petcat-table)
             :exclusive 'no))))
-
-
 
 
 ;; ------------------------------
