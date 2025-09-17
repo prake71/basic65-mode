@@ -50,6 +50,11 @@
   :type 'string
   :group 'basic65)
 
+;; ------------------------------
+;; defvar
+;; ------------------------------
+(defvar-local retro-font-active nil
+  "Ob der Retro-Font im aktuellen Buffer aktiv ist.")
 
 ;; ------------------------------
 ;; Lowercase enforcement
@@ -158,7 +163,7 @@ Triggered by `after-change-functions`."
   (let ((tmp-src (make-temp-file "basic65-" nil ".bas")))
     (write-region (point-min) (point-max) tmp-src)
     (call-process basic65-petcat-command nil "*petcat-output*" t
-                  "-w65" "-o" output-file "--" tmp-src)))
+                  "-ic" "-w65" "-o" output-file "--" tmp-src)))
 
 ;; (defun basic65-run-in-xemu ()
 ;;   "Export the current buffer to a PRG and run it in xemu."
@@ -241,9 +246,38 @@ Triggered by `after-change-functions`."
   (basic65-mode 1)
   (font-lock-fontify-buffer))  ;; refresh highlighting
 
+(defun basic65-buffer-font-retro ()
+  "Set C64 Mono font for current buffer."
+  (interactive)
+  (face-remap-add-relative 'default :family "C64 Pro Mono" :height 120))
+
+(defun basic65-toggle-buffer-font ()
+  "Schaltet zwischen Retro-Font und ursprünglichem Font im aktuellen Buffer um."
+  (interactive)
+  (if buffer-font-remap-cookie
+      ;; Font zurücksetzen
+      (progn
+        (face-remap-remove-relative buffer-font-remap-cookie)
+        (setq buffer-font-remap-cookie nil)
+        (when buffer-font-original
+          (face-remap-add-relative 'default
+                                   :family (plist-get buffer-font-original :family)
+                                   :height (plist-get buffer-font-original :height)))
+        (message "Ursprünglicher Font wiederhergestellt."))
+    ;; Font setzen und Original speichern
+    (setq buffer-font-original
+          (list :family (face-attribute 'default :family)
+                :height (face-attribute 'default :height)))
+    (setq buffer-font-remap-cookie
+          (face-remap-add-relative 'default :family "C64 Pro Mono" :height 110))
+    (message "Retro-Font aktiviert.")))
+
+
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.bas65\\'" . basic65-setup))
 (add-to-list 'auto-mode-alist '("\\.bas\\'"   . basic65-setup))
+
+
 
 
 (provide 'basic65-mode)

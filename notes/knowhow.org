@@ -1,9 +1,17 @@
-* Use C64 Mono Font within Emacs
+* TrueType Font im Emacs benutzen
 
 Um einen **TTF-Font** (TrueType Font) wie z.B. einen Retro-Font für
 deinen `basic65-mode` in Emacs zu verwenden, gibt es zwei Ansätze – je
 nachdem, ob du ihn **global** oder **nur für einen bestimmten Mode**
 nutzen möchtest.
+
+Vorbedingung ist allerdings, dass der Fonts betriebssystemseitig
+installiert ist. Für Windows kann man das hier nachlesen:
+https://www.heise.de/tipps-tricks/Windows-10-Schriftarten-installieren-4178982.html
+
+Für Linux kann man hier nachschlagen:
+https://linux-bibel.at/index.php/2023/09/03/schriften-fonts-unter-linux-installieren/
+
 
 ---
 
@@ -52,8 +60,20 @@ aktivierst:
 #+end_src
 
 Das funktioniert, wenn du `basic65-mode` als eigenen Major Mode
-definiert hast. Falls du ihn noch nicht als solchen registriert hast,
-kann ich dir dabei helfen.
+definiert hast. 
+
+
+face-remap-add-relative: Diese Funktion verändert das Aussehen (Face)
+nur im aktuellen Buffer, und zwar relativ zur bestehenden Darstellung.
+
+'default: Das ist die Standard-Schriftart für normalen Text in
+Emacs. Du veränderst also die Hauptschriftart im Buffer.
+
+:family "Courier New": Du setzt die Schriftfamilie auf "Courier New" –
+eine klassische Monospace-Schrift.
+
+:height 200: Die Schriftgröße wird auf 200/10 = 20 pt gesetzt. Emacs
+verwendet hier eine Skalierung in 1/10 pt.
 
 ---
 
@@ -81,4 +101,56 @@ den Font in einem Test-Buffer zeigt:
       (display-buffer buf)))
 #+end_src
 ---
+
+
+* Control Codes
+A control code within the PETSCII character set is a special
+non-printable character used on Commodore computers to control the
+behavior of the screen or printer, rather than display a visible
+glyph. These codes, found in specific byte ranges such as $00-$1F and
+$80-$9F, manipulate screen layout and features like text color, cursor
+movement, and clearing the screen, influencing how subsequent
+characters are displayed.
+
+What PETSCII Control Codes Do: Screen Control: They can change aspects
+of the display, such as setting the text color or controlling the
+cursor.  Printing Control: Control codes can also affect how
+information is sent to a printer or saved to a disk or tape file.
+Functionality, Not Visibility: Unlike printable characters (letters,
+numbers, symbols), control codes perform an action without showing any
+character on the screen themselves.
+
+Examples of Use: In Commodore BASIC, a program might use PRINT
+CHR$(65) to display the letter 'A', but a control code like CHR$(147)
+would clear the screen.  Specific control characters can include
+commands like "RVS ON" (reverse text) or "CLR" (clear screen).
+
+Where They Are Used: Commodore Computers: PETSCII was the standard
+character encoding for Commodore computers like the VIC-20 and C64,
+and control codes are embedded in BASIC programs and text files.
+Character Set Composition: The 256-byte PETSCII set is a mix of
+printable characters, including unique graphics glyphs, and these
+non-printable control codes.
+
+https://www.c64-wiki.de/wiki/Petcat
+
+
+
+Unter Unix ist es ebenso möglich, mit Petcat BASIC-Programme umzuwandeln:
+
+Zuerst ein Terminal-Fenster öffnen und wie bei Windows empfohlen, ein
+eigenes Verzeichnis erstellen.  Auch hier gilt, dass der BASIC-Text in
+Kleinbuchstaben vorliegen muss, was mit "tr '[:upper:]' '[:lower:]'<
+IN.BAS > OUT.BAS" einfach zu machen ist.  Umwandeln geht dann mit den
+gleichen Befehlen wie unter Windows im Kommandozeilenfenster.
+
+
+Konvertieren eines zuvor erzeugten PRG Files zurück nach BASIC 65:
+
+PS E:> E:\projects\MEGA65\petcat.exe -v -65 -o convert.bas -- .\convert.prg
+
+
+* PETSCII
+https://style64.org/petscii/
+
 
