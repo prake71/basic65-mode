@@ -1,4 +1,4 @@
-10 print "{clr}"
+10 print ""
 20 print "enter a temperature in degrees fahrenheit:"
 30 input f
 40 c=(f-32)*5/9
@@ -7,4 +7,5 @@
 70 rem
 80 do: get a$: loop until a$ <> ""
 85 if a$ = "e" then end
+90 print "{clr}"
 100 goto 10
