@@ -324,3 +324,9 @@ https://www.c64-wiki.com/wiki/PETSCII_Codes_in_Listings
 ("swuc" . "{swuc}")
 ("up" . "{up}")
 ("wht" . "{wht}))
+
+
+* petscii nach unicode
+
+
+efa0 - efde

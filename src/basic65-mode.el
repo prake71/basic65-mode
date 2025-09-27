@@ -1,7 +1,7 @@
 ;;; basic65-mode.el --- Minor mode for MEGA65 BASIC extensions -*- lexical-binding: t; -*-
 
 ;; Author: Peter Rake <prake71@gmail.com>
-;; Version: 0.1
+;; Version: 0.2
 ;; Keywords: languages, basic, mega65
 ;; Package-Requires: ((emacs "25.1") (basic-mode "1.0"))
 ;; URL: https://github.com/prake71/basic65-mode
@@ -54,6 +54,15 @@
 (defvar-local retro-font-active nil
   "Ob der Retro-Font im aktuellen Buffer aktiv ist.")
 
+
+(defvar-local basic65-in-string nil
+  "non-nil if point is currently inside a string.")
+
+(defun basic65-update-in-string-flag ()
+  "update `basic65-in-string` based on current syntax state."
+  (setq basic65-in-string (nth 3 (syntax-ppss))))
+
+
 ;; ------------------------------
 ;; Lowercase enforcement
 ;; ------------------------------
@@ -66,7 +75,32 @@ Triggered by `after-change-functions`."
 
 (defun basic65-setup-lowercase ()
   "Activate automatic downcasing in BASIC65 buffers."
-  (add-hook 'after-change-functions #'basic65-force-lowercase nil t))
+  (add-hook 'after-change-functions #'basic65-force-lowercase-except-strings nil t))
+
+
+(defun basic65-smart-downcase ()
+  "Downcase last inserted character unless inside a string."
+  (basic65-update-in-string-flag)
+  (unless basic65-in-string
+    (let ((char (char-before)))
+      (when (and char (char-uppercase-p char))
+        (save-excursion
+          (downcase-region (1- (point)) (point)))))))
+
+
+(defun basic65-force-lowercase-except-strings () "Downcase the buffer,
+skipping string literals."
+  (save-excursion
+    (goto-char (point-min))
+    (while (not (eobp))
+      (let ((ppss (syntax-ppss)))
+        (cond
+         ((nth 3 ppss) ; inside string
+          (goto-char (or (scan-sexps (point) 1) (point-max))))
+         (t
+          (let ((start (point)))
+            (forward-word 1)
+            (downcase-region start (point)))))))))
 
 (defun basic65-disable-lowercase ()
   "Disable automatic downcasing in BASIC65 buffers."
@@ -303,7 +337,10 @@ Triggered by `after-change-functions`."
   (let ((tmp-src (make-temp-file "basic65-" nil ".bas")))
     (write-region (point-min) (point-max) tmp-src)
     (call-process basic65-petcat-command nil "*petcat-output*" t
-                  "-ic" "-w65" "-o" output-file "--" tmp-src)))
+                 "-v" "-ic" "-w65" "-o" output-file "--" tmp-src)))
+;    (call-process basic65-petcat-command nil "*petcat-output*" t
+;                  "-v" "-nc" "-w65" "-o" output-file "--" tmp-src)))
+
 
 ;; (defun basic65-run-in-xemu ()
 ;;   "Export the current buffer to a PRG and run it in xemu."
@@ -369,9 +406,10 @@ Triggered by `after-change-functions`."
   :keymap basic65-mode-map
   (if basic65-mode
       (progn
-        (basic65-setup-lowercase)
+	(basic65-setup-lowercase)
         (font-lock-add-keywords nil basic65-extra-font-lock-keywords)
         (add-hook 'completion-at-point-functions #'basic65-complete-petcat nil t)
+	(add-hook 'post-self-insert-hook #'basic65-smart-downcase nil t)
         (message "BASIC65 mode enabled"))
     (basic65-disable-lowercase)
     (font-lock-remove-keywords nil basic65-extra-font-lock-keywords)
@@ -405,11 +443,11 @@ Triggered by `after-change-functions`."
 (defun basic65-toggle-buffer-font ()
   "Schaltet zwischen Retro-Font und ursprünglichem Font im aktuellen Buffer um."
   (interactive)
-  (if buffer-font-remap-cookie
+  (if retro-font-active
       ;; Font zurücksetzen
       (progn
-        (face-remap-remove-relative buffer-font-remap-cookie)
-        (setq buffer-font-remap-cookie nil)
+        (face-remap-remove-relative retro-font-active)
+        (setq retro-font-active nil)
         (when buffer-font-original
           (face-remap-add-relative 'default
                                    :family (plist-get buffer-font-original :family)
@@ -419,7 +457,7 @@ Triggered by `after-change-functions`."
     (setq buffer-font-original
           (list :family (face-attribute 'default :family)
                 :height (face-attribute 'default :height)))
-    (setq buffer-font-remap-cookie
+    (setq retro-font-active
           (face-remap-add-relative 'default :family "C64 Pro Mono" :height 110))
     (message "Retro-Font aktiviert.")))
 
@@ -448,6 +486,48 @@ Triggered by `after-change-functions`."
   (when (nth 3 (syntax-ppss)) ;; Prüft, ob Cursor innerhalb eines Strings ist
     (delete-char -1) ;; '{' wieder löschen
     (basic65-petscii-insert-code)))
+
+(defun basic65-downcase-region-unless-in-string (beg end _len)
+  "downcase inserted text between beg and end unless inside a string."
+  (save-excursion
+    (goto-char beg)
+    (while (< (point) end)
+      (let ((ppss (syntax-ppss)))
+        (cond
+         ((nth 3 ppss) ; inside string
+          (goto-char (or (scan-sexps (point) 1) end)))
+         (t
+          (let ((start (point)))
+            (forward-word 1)
+            (downcase-region start (point)))))))))
+
+(add-hook 'basic65-mode-hook
+          (lambda ()
+            (add-hook 'after-change-functions #'basic65-downcase-region-unless-in-string nil t)))
+
+
+
+(defun basic65-char-info-at-point ()
+  "show unicode info for character at point."
+  (interactive)
+  (let* ((char (char-after))
+         (name (get-char-code-property char 'name))
+         (category (get-char-code-property char 'general-category)))
+    (message "char: %s, name: %s, category: %s"
+             (char-to-string char) name category)))
+
+(defun basic65-show-unicode-pua-range ()
+  "zeige unicode-zeichen von u+efa0 bis u+efde im aktuellen buffer."
+  (interactive)
+  (let ((start #xefa0)
+        (end   #xefde))
+    (with-current-buffer (get-buffer-create "*unicode pua range*")
+      (erase-buffer)
+      (dotimes (i (- end start))
+        (let ((code (+ start i)))
+          (insert (format "u+%04x: %c\n" code code))))
+      (goto-char (point-min))
+      (display-buffer (current-buffer)))))
 
 
 ;; (defun basic65-petscii-trigger ()
