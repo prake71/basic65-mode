@@ -330,3 +330,222 @@ https://www.c64-wiki.com/wiki/PETSCII_Codes_in_Listings
 
 
 efa0 - efde
+
+
+** Mapping C64 Pro Mono Font to Unicode
+
+For further reference see: https://style64.org/petscii/
+
+Tabelle für Kleinbuchstaben Modus: cbm + shift gleichzeitig
+
+| Glyph | RVS On Lower Upper | comment |
+|-------+--------------------+---------|
+|       | efa0               | ' space |
+| !     | efa1               |         |
+| "     | efa2               |         |
+| #     | efa3               |         |
+| $     | efa4               |         |
+| %     | efa5               |         |
+| &     | efa6               |         |
+| '     | efa7               |         |
+| (     | efa8               |         |
+| )     | efa9               |         |
+| *     | efaa               |         |
+| +     | efab               |         |
+| ,     | efac               |         |
+|-------+--------------------+---------|
+| .     | efae               |         |
+| /     | efaf               |         |
+| 0     | efb0               |         |
+| 1     | efb1               |         |
+| 2     | efb2               |         |
+| 3     | efb3               |         |
+| 4     | efb4               |         |
+| 5     | efb5               |         |
+| 6     | efb6               |         |
+| 7     | efb7               |         |
+| 8     | efb8               |         |
+| 9     | efb9               |         |
+| :     | efba               |         |
+| ;     | efbb               |         |
+| <     | efbc               |         |
+| =     | efbd               |         |
+| >     | efbe               |         |
+| ?     | efbf               |         |
+|-------+--------------------+---------|
+| @     | ef80               |         |
+| A     | ef81               |         |
+| B     | ef82               |         |
+| C     | ef83               |         |
+| D     | ef84               |         |
+| E     | ef85               |         |
+| F     | ef86               |         |
+| G     | ef87               |         |
+| H     | ef88               |         |
+| I     | ef89               |         |
+| J     | ef8a               |         |
+| K     | ef8b               |         |
+| L     | ef8c               |         |
+| M     | ef8d               |         |
+| N     | ef8e               |         |
+| O     | ef9f               |         |
+| P     | ef90               |         |
+| Q     | ef91               |         |
+| R     | ef92               |         |
+| S     | ef93               |         |
+| T     | ef94               |         |
+| U     | ef95               |         |
+| V     | ef96               |         |
+| W     | ef97               |         |
+| X     | ef98               |         |
+| Y     | ef99               |         |
+| Z     | ef9a               |         |
+| [     | ef9b               |         |
+|     | ef9c               |         |
+| ]     | ef9d               |         |
+|     | ef9e               |         |
+|     | ef9f               |         |
+|-------+--------------------+---------|
+|     | efc0               |         |
+|     | efc1               |         |
+|     | efc2               |         |
+|     | efc3               |         |
+|     | efc4               |         |
+|     | efc5               |         |
+|     | efc6               |         |
+|     | efc7               |         |
+|     | efc8               |         |
+|     | efc9               |         |
+|     | efca               |         |
+|     | efcb               |         |
+|     | efcc               |         |
+|     | efcd               |         |
+|     | efce               |         |
+|     | efcf               |         |
+|     | efd0               |         |
+|     | efd1               |         |
+|     | efd2               |         |
+|     | efd3               |         |
+|     | efd4               |         |
+|     | efd5               |         |
+|     | efd6               |         |
+|     | efd7               |         |
+|     | efd8               |         |
+|     | efd9               |         |
+|     | efda               |         |
+|     | efdb               |         |
+|     | efdc               |         |
+|     | efdd               |         |
+|     | efde               |         |
+|     | efdf               |         |
+|-------+--------------------+---------|
+
+(insert (
+
+  [U+E0A0]
+  [U+E0A1]
+  [U+E0A2]
+  [U+E0A3]
+_
+  [U+E0A5]
+  [U+E0A6]
+  [U+E0A7]
+  [U+E0A8]
+  [U+E0A9]
+  [U+E0AA]
+  
+  [U+E0AC]
+  [U+E0AD]
+  [U+E0AE]
+  [U+E0AF]
+  [U+E0B0]
+  [U+E0B1]
+  [U+E0B2]
+  [U+E0B3]
+  [U+E0B4]
+  [U+E0B5]
+  [U+E0B6]
+  [U+E0B7]
+  [U+E0B8]
+  [U+E0B9]
+  [U+E0BA]
+  [U+E0BB]
+  [U+E0BC]
+  [U+E0BD]
+  [U+E0BE]
+  [U+E0BF]
+  [U+E0C0]
+  [U+E0C1]
+  [U+E0C2]
+  [U+E0C3]
+  [U+E0C4]
+  [U+E0C5]
+  [U+E0C6]
+  [U+E0C7]
+  [U+E0C8]
+  [U+E0C9]
+  [U+E0CA]
+  [U+E0CB]
+  [U+E0CC]
+  [U+E0CD]
+  [U+E0CE]
+  [U+E0CF]
+  [U+E0D0]
+  [U+E0D1]
+  [U+E0D2]
+  [U+E0D3]
+  [U+E0D4]
+  [U+E0D5]
+  [U+E0D6]
+  [U+E0D7]
+  [U+E0D8]
+  [U+E0D9]
+  [U+E0DA]
+  [U+E0DB]
+  [U+E0DC]
+  [U+E0DD]
+  [U+E0DE]
+  [U+E0DF]
+  [U+E0E0]
+  [U+E0E1]
+  [U+E0E2]
+  [U+E0E3]
+  [U+E0E4]
+  [U+E0E5]
+  [U+E0E6]
+  [U+E0E7]
+  [U+E0E8]
+  [U+E0E9]
+  [U+E0EA]
+  [U+E0EB]
+  [U+E0EC]
+  [U+E0ED]
+  [U+E0EE]
+  [U+E0EF]
+  [U+E0F0]
+  [U+E0F1]
+  [U+E0F2]
+  [U+E0F3]
+  [U+E0F4]
+  [U+E0F5]
+  [U+E0F6]
+  [U+E0F7]
+  [U+E0F8]
+  [U+E0F9]
+  [U+E0FA]
+  [U+E0FB]
+  [U+E0FC]
+  [U+E0FD]
+  [U+E0FE]
+  [U+EFDE]
+
+
+
+* Other useful source
+https://m65digest.substack.com/p/fun-with-petscii
+https://mega65.atlassian.net/wiki/spaces/MEGA65/pages/27492353/Using+petcat+for+cross-developing+BASIC+programs
+
+https://mega65.atlassian.net/wiki/spaces/MEGA65/overview?mode=global
+
+
+
