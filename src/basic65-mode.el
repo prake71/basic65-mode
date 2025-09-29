@@ -52,8 +52,7 @@
 ;; defvar
 ;; ------------------------------
 (defvar-local retro-font-active nil
-  "Ob der Retro-Font im aktuellen Buffer aktiv ist.")
-
+  "Flag variable for retro font active or not (nil).")
 
 (defvar-local basic65-in-string nil
   "non-nil if point is currently inside a string.")
