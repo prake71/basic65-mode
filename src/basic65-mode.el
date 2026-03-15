@@ -140,6 +140,77 @@ skipping string literals."
 (defconst basic65-extra-font-lock-keywords
   `((,(regexp-opt basic65-extra-keywords 'words) . font-lock-keyword-face)))
 
+(defun petscii-replace-unicode-region (beg end)
+  "Interaktiv: Ersetze bekannte PETSCII-Unicode-Zeichen im markierten Bereich
+oder im gesamten Buffer durch ihre {tags}.
+
+Wenn eine Region aktiv ist, wird nur diese konvertiert.
+Sonst wird der gesamte Buffer verarbeitet."
+  (interactive "r")
+  (let ((petscii-map
+         '(("\U0000EFD0" . "{up}")
+           ("\U0000EFD1" . "{down}")
+           ("\U0000EFD2" . "{left}")
+           ("\U0000EFD3" . "{right}")
+           ("\U0000EFD4" . "{home}")
+           ("\U0000EFD5" . "{clr}")
+           ("\U0000EFD6" . "{inst}")
+           ("\U0000EFD7" . "{del}")
+           ("\U0000EFD8" . "{return}")
+           ("\U0000EFD9" . "{stop}")
+           ("\U0000EFDA" . "{runstop}")
+           ("\U0000EFDB" . "{restore}")
+           ("\U0000EFDC" . "{esc}")
+           ("\U0000EFDD" . "{f1}")
+           ("\U0000EFDE" . "{f3}")
+           ("\U0000EFDF" . "{f5}")
+           ("\U0000EFE0" . "{f7}")
+           ("\U0000EFE1" . "{f2}")
+           ("\U0000EFE2" . "{f4}")
+           ("\U0000EFE3" . "{f6}")
+           ("\U0000EFE4" . "{f8}")
+           ("\U0000EFE5" . "{shift}")
+           ("\U0000EFE6" . "{ctrl}")
+           ("\U0000EFE7" . "{commodore}")
+           ("\U0000EFE8" . "{run}")
+           ("\U0000EFE9" . "{crsr-up}")
+           ("\U0000EFEA" . "{crsr-down}")
+           ("\U0000EFEB" . "{crsr-left}")
+           ("\U0000EFEC" . "{crsr-right}")
+           ("\U0000EFED" . "{help}")
+           ("\U0000EFEE" . "{no-scroll}")
+           ("\U0000EFEF" . "{graph}")
+           ("\U0000EFF0" . "{rvs-on}")
+           ("\U0000EFF1" . "{rvs-off}")
+           ("\U0000EFF2" . "{black}")
+           ("\U0000EFF3" . "{white}")
+           ("\U0000EFF4" . "{red}")
+           ("\U0000EFF5" . "{cyan}")
+           ("\U0000EFF6" . "{purple}")
+           ("\U0000EFF7" . "{green}")
+           ("\U0000EFF8" . "{blue}")
+           ("\U0000EFF9" . "{yellow}")
+           ("\U0000EFFA" . "{orange}")
+           ("\U0000EFFB" . "{brown}")
+           ("\U0000EFFC" . "{pink}")
+           ("\U0000EFFD" . "{dark-gray}")
+           ("\U0000EFFE" . "{gray}")
+           ("\U0000EFFF" . "{light-green}")
+	   ("\U0000EF92" . "{rvof}")
+	   ("\U0000EF85" . "{wht}")
+	   ("\U0000EF60" . "{$a0}")
+	   )))
+    (save-excursion
+      (save-restriction
+        (if (use-region-p)
+            (narrow-to-region beg end)
+          (widen))
+        (goto-char (point-min))
+        (dolist (entry petscii-map)
+          (goto-char (point-min))
+          (while (search-forward (car entry) nil t)
+            (replace-match (cdr entry) t t)))))))
+
 
 ;; ------------------------------
 ;; PETSCII completion
@@ -393,7 +464,7 @@ skipping string literals."
 ;; ------------------------------
 (defvar basic65-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-r") #'basic65-run-in-xemu)  ;; Run in xemu
+    (define-key map (kbd "C-c C-x") #'basic65-run-in-xemu)  ;; Run in xemu
     (define-key map (kbd "C-c C-k") #'basic65-kill-xemu)    ;; Kill xemu
     map)
   "Keymap for `basic65-mode`.")

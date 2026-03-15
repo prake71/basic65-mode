@@ -548,4 +548,12 @@ https://mega65.atlassian.net/wiki/spaces/MEGA65/pages/27492353/Using+petcat+for+
 https://mega65.atlassian.net/wiki/spaces/MEGA65/overview?mode=global
 
 
+rem Unicode -> petscii control code
+
+
+efd3 -> $d3 -> {clr} (petcat vice 3.3)
+
+ef85 -> $85 -> {wht}
+ef92 -> $92 -> {rvon} 
+efd2 -> $d2 -> {rvof}
 

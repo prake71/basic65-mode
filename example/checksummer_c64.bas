@@ -1,12 +1,12 @@
-10 rem *******************************
-20 rem *                             *
-30 rem *       checksummer 64        *
-40 rem *                             *
-50 rem *       (version  2.0)        *
-60 rem *                             *
-70 rem *           64'er             *
-80 rem *                             *
-90 rem *        commodore 64         *
+10 rem  *******************************
+20 rem  *                             *
+30 rem  *       checksummer 64        *
+40 rem  *                             *
+50 rem  *       (version  2.0)        *
+60 rem  *                             *
+70 rem  *           64'er             *
+80 rem  *                             *
+90 rem  *        commodore 64         *
 100 rem *                             *
 110 rem *******************************
 120 print"{clr}             {rvon}checksummer 64{rvof}"

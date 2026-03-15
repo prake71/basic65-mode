@@ -7,14 +7,14 @@
 60 next
 70 for i = 0 to 79 step 5:pokeb+80*20+i,66:next
 80 getkey a$
-# feldkoordinaten
-# ol = (3,0)
-# or = (53,0)
-# ul = (3,16)
-# ur = (53,16)
-# tl = (2,7)(2,8),(2,9)
-# tr = (53,7)(53,8),(53,9)
-# mp = (28,8)+
+; feldkoordinaten
+; ol = (3,0)
+; or = (53,0)
+; ul = (3,16)
+; ur = (53,16)
+; tl = (2,7)(2,8),(2,9)
+; tr = (53,7)(53,8),(53,9)
+; mp = (28,8)+
 90 mx = 28:my=8:tx=4:ty=8:dy=1:bd=0
 95 p=peek(b+80*my+mx)
 100 pokeb+80*my+mx,81
