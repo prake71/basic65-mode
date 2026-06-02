@@ -42,4 +42,4 @@ The mode for Emacs should at least consider
 
 Pre-Requisite: 
 - xemu's xmega65 is installed and somewhere where PATH points to
-
+- latest petcat from the VICE project is installed and in the PATH

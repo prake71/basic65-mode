@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # basic65-mode
 
 An Emacs Minor-Mode for convenient editing of **MEGA65 BASIC 65**

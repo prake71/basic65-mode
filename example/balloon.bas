@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 10 rem up, up and away
 20 print "{clr}"
 30 v=53248    : rem Basisadresse des VIC

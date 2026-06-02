@@ -5,3 +5,4 @@
 10040 print "hallo"
 10050 goto 10040
 ; hello
+

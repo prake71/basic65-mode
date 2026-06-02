@@ -15,4 +15,3 @@
 150 a = a + 0.1:sleep 0.1
 155 if a > 359 then a = 0
 160 goto 90
-

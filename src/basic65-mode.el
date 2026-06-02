@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ;;; basic65-mode.el --- Minor mode for MEGA65 BASIC extensions -*- lexical-binding: t; -*-
 
 ;; Author: Peter Rake <prake71@gmail.com>
