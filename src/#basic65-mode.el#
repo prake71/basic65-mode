@@ -528,7 +528,7 @@ Sonst wird der gesamte Buffer verarbeitet."
           (list :family (face-attribute 'default :family)
                 :height (face-attribute 'default :height)))
     (setq retro-font-active
-          (face-remap-add-relative 'default :family "C64 Pro Mono" :height 110))
+          (face-remap-add-relative 'default :family "C64 Pro Mono" :height 90))
     (message "Retro-Font aktiviert.")))
 
 ;; (defun basic65-petscii-insert-code ()
