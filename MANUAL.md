@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# basic65-mode
+# basic65-mode Manual
 
 An Emacs Minor-Mode for convenient editing of **MEGA65 BASIC 65**
 programs. It extends `Basic-mode` with specific functions for the
@@ -20,40 +19,39 @@ MEGA65, including:
 `‘basic-auto-number’` is set.  Default is disabled.
 
 `M-.` looks up the identifier at point.
-### Customization
-Customization:
 
+### Customization
 You can customize the indentation of code blocks, see variable
-‘basic-indent-offset’.  The default value is 4.
+`basic-indent-offset`.  The default value is `4`.
 
 Formatting is also affected by the customizable variables
-‘basic-delete-trailing-whitespace’ and ‘delete-trailing-lines’
-(from simple.el).
+`basic-delete-trailing-whitespace` and `delete-trailing-lines`
+(from `simple.el`).
 
 You can also customize the number of columns to allocate for line
-numbers using the variable ‘basic-line-number-cols’. The default
-value of 0, no space reserved, is appropriate for programs with
+numbers using the variable `basic-line-number-cols`. The default
+value of `0`, no space reserved, is appropriate for programs with
 no line numbers and for left aligned numbering. Use a larger
 value if you prefer right aligned numbers. Note that the value
 includes the space after the line number, so 6 right aligns
 5-digit numbers.
 
 The other line number features can be configured by customizing
-the variables ‘basic-auto-number’, ‘basic-renumber-increment’ and
-‘basic-renumber-unnumbered-lines’.
+the variables `basic-auto-number`, `basic-renumber-increment` and
+`basic-renumber-unnumbered-lines`.
 
 Whether syntax highlighting requires separators between keywords
 can be customized with variable
-‘basic-syntax-highlighting-require-separator’.
+`basic-syntax-highlighting-require-separator`.
 
 ### Key-Bindings
 
-| Key    | Binding                  |
-|        |                          |
-| RET    | basic-newline-and-number |
-| :      | basic-electric-colon     |
-| C-cC-f | basic-format-code        |
-| C-cC-r | basic-renumber           |
+| Key     | Binding                  |
+|---------|--------------------------|
+| RET     | basic-newline-and-number |
+| :       | basic-electric-colon     |
+| C-c C-f | basic-format-code        |
+| C-c C-r | basic-renumber           |
 
 
 ---
@@ -108,6 +106,7 @@ Set paths to external tools:
 ### Unicode Tools
 
 `M-x basic65-char-info-at-point`: Show Unicode info for character at point
+
 `M-x basic65-show-unicode-pua-range`: Display MEGA65 PUA range
 
 
