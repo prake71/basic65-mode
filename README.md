@@ -34,12 +34,17 @@ The mode for Emacs should at least consider
 # Installation
 
 1.`cd ~/.emacs.d`
-2. `git clone https://github.com/prake71/basic65-mode.git`
-3. `emacs ~/.emacs`
-4. add `(add-to-list 'load-path "~/.emacs.d/basic65-mode/src/")` to your .emacs file
-5. add `(require 'basic65-mode)` to your .emacs file
-6. M-x eval-buffer
 
-Pre-Requisite: 
-- xemu's xmega65 is installed and somewhere where PATH points to
-- latest petcat from the VICE project is installed and in the PATH
+2. `git clone https://github.com/prake71/basic65-mode.git`
+
+3. `emacs ~/.emacs`
+
+4. add `(add-to-list 'load-path "~/.emacs.d/basic65-mode/src/")` to your .emacs file
+
+5. add `(require 'basic65-mode)` to your .emacs file
+
+6. `M-x eval-buffer`
+
+Prerequisite: 
+- xemu's `xmega65` is installed and somewhere where PATH points to
+- latest `petcat` from the VICE project is installed and in the PATH

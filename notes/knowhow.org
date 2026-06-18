@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 * TrueType Font im Emacs benutzen
 
 Um einen **TTF-Font** (TrueType Font) wie z.B. einen Retro-Font für

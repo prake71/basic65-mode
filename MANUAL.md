@@ -1,7 +1,7 @@
 # basic65-mode Manual
 
 An Emacs Minor-Mode for convenient editing of **MEGA65 BASIC 65**
-programs. It extends `Basic-mode` with specific functions for the
+programs. It extends [`basic-mode`](https://stable.melpa.org/#/basic-mode) with specific functions for the
 MEGA65, including:
 
 - automatic lower case (except in strings) 
@@ -56,18 +56,14 @@ can be customized with variable
 
 ---
 
-
-
----
-
 ## Installation
 
-1. Emacs ≥ 25.1 installieren
-2. `basic-mode` installieren
-3. Tools installieren:
-   - [`petcat`](https://githubtps://github.com/mist(`xmega65`)
-4. `basic65-mode.el` in dein `load-path` legen
-5. In deiner Emacs-Konfiguration:
+1. install Emacs ≥ 25.1 
+2. install `basic-mode` within Emacs (`M-x package-install`) 
+3. install the additional tools:
+   - [`petcat`](https://github.com/mist)
+   - install [`xemu`](https://github.com/lgblgblgb/xemu) for xmega65 emulator
+4. add `basic65-mode.el` to your `load-path` in your `.emacs`
 
 ```
 (require 'basic65-mode)
@@ -107,6 +103,6 @@ Set paths to external tools:
 
 `M-x basic65-char-info-at-point`: Show Unicode info for character at point
 
-`M-x basic65-show-unicode-pua-range`: Display MEGA65 PUA range
+`M-x basic65-show-unicode-pua-range`: Display MEGA65 Unicode Private Use Area (PUA) range
 
 
